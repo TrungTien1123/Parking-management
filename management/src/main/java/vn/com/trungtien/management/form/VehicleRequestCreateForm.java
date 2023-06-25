@@ -1,13 +1,10 @@
 package vn.com.trungtien.management.form;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import vn.com.trungtien.management.domains.entities.Vehicle;
-import vn.com.trungtien.management.services.dto.VehicleDTO;
 
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
@@ -30,7 +27,8 @@ public class VehicleRequestCreateForm {
     public static class VehicleDTO{
         private String vehicleTypeId;
         @NotBlank(message = "userId must NOT be blank")
-        private String userId;
+        @JsonProperty("vehicleId")
+        private Long id;
     }
 
 

@@ -15,7 +15,6 @@ public class VehicleRequestFilterForm {
             regexp = "PENDING|APPROVED|CANCELED",
             message = "User role must be PENDING or APPROVED or CANCELED"
     )
-    private RoleEnum role;
     private VehicleRequestStatusEnum status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdDate;

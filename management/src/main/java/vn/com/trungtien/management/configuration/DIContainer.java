@@ -20,13 +20,16 @@ public class DIContainer {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
+                .setMatchingStrategy(MatchingStrategies.STANDARD);
         modelMapper.typeMap(StudentCreateForm.class, Student.class)
-                .addMappings(mapper -> mapper.<Long>map(StudentCreateForm::getDepartmentId,(des,id) ->des.getDepartment().setId(id)));
+//                .addMappings(mapper -> mapper.<Long>map(StudentCreateForm::getDepartmentId,(des,id) ->des.getDepartment().setId(id)))
+                .addMappings(mapper -> mapper.skip(Student::setId));
         modelMapper.typeMap(UserCreateForm.class, User.class)
-                .addMappings(mapper -> mapper.<Long>map(UserCreateForm::getBuildingId,(des,id) ->des.getBuilding().setId(id)));
+                .addMappings(mapper -> mapper.skip(User::setId));
+//                .addMappings(mapper -> mapper.<Long>map(UserCreateForm::getBuildingId,(des,id) ->des.getBuilding().setId(id)));
         modelMapper.typeMap(VehicleCreateForm.class, Vehicle.class)
-                .addMappings(mapper -> mapper.<Long>map(VehicleCreateForm::getUserId,(des,id) ->des.getUser().setId(id)));
+                .addMappings(mapper -> mapper.skip(Vehicle::setId));
+//                .addMappings(mapper -> mapper.<Long>map(VehicleCreateForm::getUserId,(des,id) ->des.getUser().setId(id)));
         return modelMapper;
     }
     @Bean

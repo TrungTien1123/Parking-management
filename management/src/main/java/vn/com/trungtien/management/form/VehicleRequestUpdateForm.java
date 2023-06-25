@@ -1,9 +1,11 @@
 package vn.com.trungtien.management.form;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
@@ -25,6 +27,8 @@ public class VehicleRequestUpdateForm {
     @Setter
     public static class VehicleDTO{
         private String vehicleTypeId;
-        private String userId;
+        @NotBlank(message = "userId must NOT be blank")
+        @JsonProperty("vehicleId")
+        private Long id;
     }
 }

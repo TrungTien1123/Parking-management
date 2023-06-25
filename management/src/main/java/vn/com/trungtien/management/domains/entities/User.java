@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Formula;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.userdetails.UserDetails;
 import vn.com.trungtien.management.domains.enums.RoleEnum;
@@ -20,7 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends AbstractAuditingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -42,6 +43,7 @@ public class User {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
+    @Value("STUDENT")
     private RoleEnum role;
 
     @Column(name = "phone", length = 10)
@@ -54,7 +56,7 @@ public class User {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "building_id")
+    @JoinColumn(name = "building_id", referencedColumnName = "id")
     private Building building;
 
     @ManyToOne

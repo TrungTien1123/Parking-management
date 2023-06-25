@@ -14,4 +14,5 @@ public class BuildingCreateForm {
     private String code;
     @NotBlank(message = "name must NOT be blank")
     private String name;
+    private String address;
 }

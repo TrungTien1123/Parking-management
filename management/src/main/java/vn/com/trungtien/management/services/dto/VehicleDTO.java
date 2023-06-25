@@ -12,6 +12,4 @@ public class VehicleDTO {
     private String ticket;
     private String vehicleTypeId;
     private String userId;
-
-
 }

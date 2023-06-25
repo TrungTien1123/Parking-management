@@ -8,10 +8,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import vn.com.trungtien.management.domains.entities.Vehicle;
 import vn.com.trungtien.management.domains.entities.VehicleRequest;
 import vn.com.trungtien.management.form.VehicleRequestCreateForm;
 import vn.com.trungtien.management.form.VehicleRequestFilterForm;
 import vn.com.trungtien.management.form.VehicleRequestUpdateForm;
+import vn.com.trungtien.management.repositories.IVehicleRepository;
 import vn.com.trungtien.management.repositories.IVehicleRequestRepository;
 import vn.com.trungtien.management.services.dto.VehicleRequestDTO;
 import vn.com.trungtien.management.services.mapper.VehicleRequestMapper;
@@ -24,7 +27,7 @@ import java.util.List;
 public class VehicleRequestService {
 
     private final IVehicleRequestRepository repository;
-
+    private final IVehicleRepository vehicleRepository;
     private final VehicleRequestMapper mapper;
 
     private final ModelMapper modelMapper;
@@ -38,8 +41,15 @@ public class VehicleRequestService {
     public VehicleRequestDTO findById(Long id){
         return mapper.toDTO(repository.findById(id).orElse(null));
     }
+    @Transactional
     public void create(VehicleRequestCreateForm form){
-        repository.save(modelMapper.map(form, VehicleRequest.class));
+        VehicleRequest vehicleRequest = modelMapper.map(form, VehicleRequest.class);
+        VehicleRequest saved = repository.save(vehicleRequest);
+        List<Vehicle> vehicles = vehicleRequest.getVehicleList();
+        for (Vehicle vehicle : vehicles) {
+            vehicle.setVehicleRequest(saved);
+        }
+        vehicleRepository.saveAll(vehicles);
     }
     public void update(VehicleRequestUpdateForm form){
         repository.save(modelMapper.map(form, VehicleRequest.class));
